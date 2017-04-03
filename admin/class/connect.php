@@ -20,6 +20,7 @@ class connect
 
 	{
 
+            
 		$this->host = '50.62.209.151:3306';
 
 		$this->username = 'lovash_indian';

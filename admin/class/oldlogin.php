@@ -4,6 +4,9 @@ class login
     public $messageCode;
 	public function adminLogin($post)
 	{
+            
+                 
+            
 	   	if($this->validateAdminLogin($post))
 		{
 			if($this->setAdminLogin($post))
@@ -39,6 +42,9 @@ class login
 
 	public function setAdminLogin($post)
 	{
+          
+          
+            
 		$strsqlAdmin = "select id from tbl_admin where (username='".mysql_real_escape_string($post['username'])."' or email='".mysql_real_escape_string($post['username'])."') and password='".mysql_real_escape_string($post['password'])."' ";
 		$resultAdmin = mysql_query($strsqlAdmin);
 		if(mysql_num_rows($resultAdmin)>=1)
