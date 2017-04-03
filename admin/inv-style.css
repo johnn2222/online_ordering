@@ -1,0 +1,37 @@
+body{ margin:0; padding:0;}
+.main_INV{ width:880px; height:1212px; background:url(INV.jpg) no-repeat;}
+.company_Address{ width:200px; padding-left:665px; height:113px; padding-top:70px; font:12px Arial, Helvetica, sans-serif; line-height:20px; color:#666;}
+.customer_Address{ width:250px; padding-left:180px; height:240px; font:bold 14px century gothic, Helvetica, sans-serif; line-height:20px; color:#666;}
+.date{ width:120px; height:20px; background:#000;}
+.order_number{ width:880px; height:20px;}
+.order_n{ width:250px; font:bold 14px Arial, Helvetica, sans-serif; padding-left:195px; color:#666; float:left;}
+.order_D{ width:auto; font:14px Arial, Helvetica, sans-serif; padding-left:250px; color:#666; float:left;}
+
+.order_D2{ width:auto; font:14px Arial, Helvetica, sans-serif; padding-left:178px; color:#666; float:left;}
+
+.product_name{ width:680px; padding-left:200px; height:40px; padding-top:72px; font:12px Arial, Helvetica, sans-serif;}
+.product_name strong{ font-size:20px;}
+
+.pricing_HH{ width:560px; padding-left:200px; padding-top:13px; height:350px;}
+.pricing_HH_r{ width:100%; height:27px; text-align:left; margin-top:10px; color:#000; font:17px Arial, Helvetica, sans-serif;}
+.pricing_HH_r span{ float:right;}
+
+
+
+
+
+.total_po{ height:25px; font:bold 25px Arial, Helvetica, sans-serif;color:#000; padding-left:670px;}
+.invoice_data{ height:auto; overflow:hidden; width:100%; }
+.invoise_left_signatory{ width:230px; line-height:30px;  padding-left:100px; float:left; padding-top:52px; text-align:center; font:13px Arial, Helvetica, sans-serif;}
+
+
+.invoise_right_vat_cst{ width:270px; height:auto; float:left; padding-left:160px; padding-top:53px;}
+.invoise_right_cst{ width:270px; height:28px; font:bold 13px Arial, Helvetica, sans-serif;}
+.invoise_right_cst span{ float:right; font-weight:normal;}
+
+
+
+
+
+
+

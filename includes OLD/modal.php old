@@ -1,0 +1,644 @@
+<a href="javascript:;"  data-toggle="modal" id="openMsg" style="display:none;" data-target="#forMsg">Open Msg</a>
+
+<div class="modal fade" id="forMsg" role="dialog">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+         
+          <h4 class="modal-title">Message</h4>
+        </div>
+        <div class="modal-body">
+          <p>Thank you for ordering with us!</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+  
+
+
+
+
+<div class="modal fade" id="AddCart" role="dialog">
+
+    <div class="modal-dialog">
+
+
+
+    <!-- Modal content-->
+
+    <div class="modal-content">
+
+      <div class="modal-header">
+
+  <button type="button" class="close" id="PrdClose" data-dismiss="modal">&times;</button>
+
+
+
+        
+
+        <div id="itemName"></div>
+
+        <div id="itemDesc"></div>
+
+        <div id="itemPrice"></div>
+
+        <div id="subTotal"></div>
+
+     	<input type="hidden" name="spcl" id="UpdId" value="" />
+
+        <input type="hidden" name="spcl" id="UpdQty" value="" />  	        
+
+      </div>
+
+      <div class="modal-body">      
+
+  
+
+        <div class="panel control-group panel-default">
+
+			<div class="panel-body ">
+
+				<div class="control-group-title lang-instructions">* Special Instructions</div>
+
+				<div class="order-input-line">
+
+					<div class="order-input">
+
+						<i class="input-icon fa fa-asterisk"></i>
+
+						<input id="special-request" type="text" class="form-control rounded instructions-input" placeholder="Example: No pepper please." maxlength="100">
+
+						<div class="text-right">
+
+							
+
+						</div>
+
+					</div>
+
+				</div>
+
+			</div>
+
+		</div>
+        
+               
+
+
+        <div id="AddOn"></div>
+
+           
+
+         
+
+      
+
+      <div class="modal-footer">
+
+      
+
+      <div class="col-lg-12 no-padding">
+
+      	<div class="col-lg-7 no-padding">
+
+        <div class="pull-left"><span>Quantity</span></div>
+
+        </div>
+
+        <div class="col-lg-5">&nbsp;</div>
+
+      <div class="col-lg-7 no-padding">		
+
+		<div class="item-popup-bottom-action clearfix">			
+
+			 <a href="javascript:void(0)" class="btn-quantity" id="des_quantity">
+
+        		<div class="glyphicon glyphicon-minus icon-collapse"></div>
+
+			</a>
+
+			
+
+			<div class="quantity-selector">
+
+				<label>
+
+	<input id="quantity-selector" readonly="readonly" type="text" class="form-control quantity_mask" value="1" maxlength="4" autocomplete="off">
+
+				</label>
+
+			</div>
+
+            <a href="javascript:void(0)" class="btn-quantity" onclick="qtyPlus($('#quantity-selector').val());" id="asc_quantity">        
+
+				<div class="glyphicon glyphicon-plus icon-collapse"></div>
+
+			</a>
+
+            			<input type="hidden" id="options-item-price" value="4.50">
+
+		</div>     
+
+     </div>  
+
+     <div class="col-lg-5"> 
+
+     <button type="button" class="btn btn-primary" style="display:none" id="UpdateCartNow">Update Cart</button>
+		
+       <button type="button" class="btn btn-primary" onclick="AddToCart($('#getId').val(),$('#special-request').val(),$('#quantity-selector').val());" id="AddCartNow">Add Cart</button>    
+
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+
+  </div>
+
+</div>
+
+
+
+</div>
+
+</div>
+
+
+
+
+
+
+
+<!--popup-->
+
+
+
+<div class="modal fade" id="Popup" role="dialog">
+
+    <div class="modal-dialog">
+
+
+
+    <!-- Modal content-->
+
+    <form method="post" action="" id="popupForm">
+
+    <div class="modal-content">    
+
+		<div class="modal-header">
+        <center><div id="succMsgs"></div></center>
+        <br />
+        <a href="javascript:;" id="closePopup" class="close" data-dismiss="modal" style="display:none;">close</a>
+
+        <h4>Haveli Indian Restaurant </h4>
+
+        <span><strong>Address : </strong>9720 Page Ave, St. Louis, MO 63132, United States </span> 	  
+	<span><strong>Restaurant Timing : </strong>Sunday to Thursday - 11:00 am to 08:30 pm  (Monday Closed)</span>
+
+	<span><strong>Call : </strong>+1 314-423-7300</span>
+      </div>
+
+      
+
+      <div class="modal-body">  
+
+          <div class="panel control-group panel-default">
+
+      
+
+			<div class="panel-body ">
+
+            	<div class="col-lg-12">
+
+                	
+
+                    <div class="row margin-bottom">
+
+                        
+
+                        
+
+                        <div class="col-lg-3">
+
+                        <input type="radio" name="DelPick" id="DelPick" onclick="ChooseOpt(this.value);" value="pickup"  /> 
+
+                        Pickup
+
+                        </div>
+
+                        <div class="col-lg-6">
+
+                        &nbsp;
+
+                        </div>
+
+                        
+
+					</div>    
+
+                    
+
+                   
+
+                    <div class="row" id="now-ltr" style="display:none;">
+
+                    <div class="col-lg-12">
+
+                    	<div class="row">
+
+                            <div class="col-lg-12">
+
+                            <h4 style="color:#23acb1;">Ready for Pickup in : 20 min</h4>
+
+                            <?php 
+
+						$Ctime=time();		
+
+						$currTime = date('h:i:A',$Ctime);
+
+						$time = explode(":",$currTime);
+
+						//print_r($time);
+
+						?>
+
+                   
+
+  <input type="radio" checked="checked" name="nowltr" class="nowltr" id="now" onClick="chkNowLtr('1');" value="<?=$currTime?>" /> Now
+
+                            </div>
+
+                        </div>
+
+                        
+
+                      	<div class="row margin-bottom">  
+
+                            <div class="col-lg-12">
+
+<input type="radio" name="nowltr" class="nowltr" id="later" onClick="chkNowLtr('2');" /> Later(You will be prompted to select Date/Time)
+
+                            </div>
+
+                        </div>
+
+                       
+
+                       <div class="row margin-bottom">  
+
+                            <div class="col-lg-12">						
+
+                        
+
+                         <input id='timepicker' type='text' class="form-control" name='timepicker' value="<?=$currTime?>"/>					
+
+                       
+
+                            </div>
+
+                        </div>
+
+                        <div class="row">  
+
+                            <div class="col-lg-12">	
+
+                        <button name="Go2" type="button" class="btn btn-primary" id="Go2">Go</button> 
+
+                        	</div>
+
+                            </div>
+
+                       </div>
+
+                        
+
+					</div>
+
+
+
+                    <!--end-->
+
+                    
+
+                    <div class="row margin-bottom" id="search-box">
+
+                        <div class="col-lg-2">
+
+                        <strong>Address:</strong>
+
+                        </div>
+
+         
+
+               <div class="col-lg-7">
+
+               
+
+    <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?libraries=places&sensor=false"></script>
+
+<script language="javascript" type="text/javascript">
+
+function init() {
+
+	var input = document.getElementById('LocSearch');
+
+	var autocomplete = new google.maps.places.Autocomplete(input);
+
+}
+
+google.maps.event.addDomListener(window, 'load', init);
+
+</script>
+
+<input type="text" name="addrs"  id="LocSearch" class="form-control"  placeholder="verify your address first">
+
+                        </div>
+
+                        <div class="col-lg-3">
+
+                        <div id="addLoader"></div>
+
+                        <button type="button" name="searchAddr" class="form-control btn btn-primary" onClick="SearchAddress();" id="SearchAddr" >Search</button>
+
+                        </div>
+
+                        
+
+					</div>                    
+
+                        
+
+                        <div id="validateAddr" style="display:none;"></div>
+
+                                            
+
+                                        
+
+                </div>
+
+				
+
+			</div> 		
+
+          
+
+            
+
+            <div class="panel-body" id="map-view">
+
+                <div class="col-lg-12"> 
+
+                <?php
+
+			$address = "1135 N 9th Street, Stroudsburg Pennsylvania 18360 USA";
+
+			//echo"<pre>";print_r($address);
+
+			//$url = "http://maps.google.com/maps/api/geocode/json?address='".urlencode($address)."'&sensor=false";
+
+			$coordinates = file_get_contents('http://maps.googleapis.com/maps/api/geocode/json?address='.urlencode($address) . '&sensor=true');
+
+			$coordinates = json_decode($coordinates);
+
+			//echo"<pre>";print_r($coordinates);
+
+			//echo 'Latitude:' . $coordinates->results[0]->geometry->location->lat;
+
+			//echo 'Longitude:' . $coordinates->results[0]->geometry->location->lng;
+
+			 
+
+			$lat = $coordinates->results[0]->geometry->location->lat;
+
+			$lng = $coordinates->results[0]->geometry->location->lng;
+
+			
+
+			?>
+
+            <input type="hidden" id="getLatitude" value="<?=$lat?>" />
+
+            <input type="hidden" id="getLong" value="<?=$lng?>" />           
+
+                <div id="map-canvas" style="width:100%; height:230px;overflow:scroll;">
+
+                </div>
+
+                
+
+             </div>
+
+		</div>
+
+        
+
+            <div class="modal-footer">
+
+            <div class="col-lg-12">
+
+       <button type="button" name="Go" style="display:none;" class=" btn btn-primary" id="Go" >Go</button>
+
+            </div>
+
+            </div>
+
+	
+
+        </div>
+
+      </div>
+
+    </div>
+
+    </form>
+
+  </div>
+
+   </div>
+
+
+
+
+
+<script>
+
+
+
+
+
+
+
+  function initialize() {
+
+    // settings
+
+	
+
+	
+
+	//latitude and longitude
+
+	//show your restorent location 
+
+	var getlati = document.getElementById('getLatitude').value;
+
+	var getlong = document.getElementById('getLong').value;
+
+	//
+
+	
+
+    var center = new google.maps.LatLng(38.688229,-90.374530);
+
+    var radius_circle = 8000; // 10km
+
+    var markerPositions = [
+
+      {lat:getlati, lng:getlong}
+
+     // {lat: 50.791671, lng: 4.587825}
+
+      //{lat: 50.66649, lng: 3.945124},
+
+      //{lat: 50.429139, lng: 4.813044}
+
+    ];
+
+    var markers=[];
+
+    // draw map
+
+    var mapOptions = {
+
+      center: center,
+
+      zoom: 18,
+
+      mapTypeId: google.maps.MapTypeId.ROADMAP
+
+    };
+
+    var map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+
+    var circle = drawCircle(mapOptions.center, radius_circle);
+
+    // markers
+
+    for (var i=0; i<markerPositions.length; i++) { 
+
+      markers.push(
+
+        new google.maps.Marker({
+
+          position: new google.maps.LatLng(markerPositions[i].lat, markerPositions[i].lng),
+
+          map: map,
+
+          draggable: false
+
+        })
+
+      );		  	
+
+   
+
+    // client clicks on button, we will check for the markers within the circle
+
+    google.maps.event.addDomListener(document.getElementById('start'), 'click', function() {
+
+      for (var i=0; i<markerPositions.length; i++) {
+
+        var distance = calculateDistance(
+
+          markers[i].getPosition().lat(),
+
+          markers[i].getPosition().lng(),
+
+          circle.getCenter().lat(),
+
+          circle.getCenter().lng(),
+
+          "K"
+
+        );
+
+        if (distance * 1000 < radius_circle) {   // radius is in meter; distance in km
+
+          markers[i].setIcon('http://maps.gstatic.com/mapfiles/icon_green.png');      // make or find a better icon
+
+        }
+
+        else {
+
+          markers[i].setIcon('http://maps.gstatic.com/mapfiles/icon.png');            // make or find a better icon
+
+        }
+
+      }
+
+    });
+
+    function drawCircle(center, radius) { 	
+
+	 
+
+		return new google.maps.Circle({
+
+        strokeColor: '#0000FF',
+
+        strokeOpacity: 0.7,
+
+        strokeWeight: 1,
+
+        fillColor: '#0000FF',
+
+        fillOpacity: 0.15,
+
+        draggable: false,
+
+        map: map,
+
+        center: center,
+
+        radius: radius
+
+      });
+
+    }
+
+	infowindow.open(map, marker);
+
+  }
+
+  google.maps.event.addDomListener(window, 'load', initialize);
+
+
+
+
+
+//get address search
+
+
+
+</script>
+
+
+
+   <script type='text/javascript'src='js/timepicki.js'></script>
+
+					  <script type="text/javascript"> 
+
+					    $('#timepicker').timepicki(); 
+
+                        </script>
+

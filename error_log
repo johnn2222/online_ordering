@@ -1,0 +1,6 @@
+[15-Jun-2016 23:38:59 Asia/Kolkata] PHP Warning:  file_get_contents(http://maps.google.com/maps/api/geocode/json?address=&amp;sensor=false): failed to open stream: HTTP request failed! HTTP/1.0 400 Bad Request
+ in /home/w3coding/public_html/clients/online-order/class/utils.php on line 373
+[16-Jun-2016 22:54:27 Asia/Kolkata] PHP Parse error:  syntax error, unexpected end of file in /home/w3coding/public_html/clients/online-order/includes/sidebar.php on line 567
+[18-Jun-2016 00:36:24 Asia/Kolkata] PHP Warning:  file_get_contents(http://maps.google.com/maps/api/geocode/json?address=&amp;sensor=false): failed to open stream: HTTP request failed! HTTP/1.0 400 Bad Request
+ in /home/w3coding/public_html/clients/online-order/class/utils.php on line 370
+[18-Jun-2016 01:07:56 Asia/Kolkata] PHP Fatal error:  Class 'utils' not found in /home/w3coding/public_html/clients/online-order/index.php on line 16
