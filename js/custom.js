@@ -555,18 +555,16 @@ $('#Popup').modal({
 //			$(".loader2").html('<img src="'+Root+'images/loader.gif">');
 //		},
 		success: function(dt)
-
 		{
 			$("#PrdClose").trigger('click');
 			
 			if(dt.res==1)
 			{			
-						
+                            var carData=JSON.stringify(dt.data);
+			window.localStorage.setItem("cartItem",carData);		
 			$("#side-cont").load(location.href + " #side-cont");			
 			$("#chkout").load(location.href + " #chkout");
-				
-					
-				
+                       						
 			}
 
 			//$(".loader2").empty();
@@ -1402,14 +1400,13 @@ addon+='<span><input type="checkbox" name="addOn" class="addOn" value="'+dt[i].a
 	
         
  $(window).on("scroll", function() {
-     console.log($(window).scrollTop());
-            if($(window).scrollTop() > 280) {
-                $(".your-cart").show();
+               if($(window).scrollTop() >=280) {  
                 $(".main-cart").hide();
+                $("#fixed-cart").show();
                // $("#cart").css("top","right",$(window).scrollTop());
               
             }else{
           $(".main-cart").show();
-          $(".your-cart").hide();
+                $("#fixed-cart").hide();
             }
         });	

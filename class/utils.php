@@ -223,7 +223,7 @@ class utils{
 			
 			//cart 
 		
-		$msg='';
+		$result=array();
 		$qry=mysql_query("select * from tbl_product where id='$id'")or die(mysql_error());
 
 		$res=mysql_fetch_object($qry);
@@ -300,9 +300,10 @@ class utils{
 		}		
 		if(isset($_SESSION['CartItem']))
 		{
-		$msg['res']=1;	
+                $result['data']=$_SESSION['CartItem'];    
+		$result['res']=1;	
 		}
-		echo json_encode($msg);				
+		echo json_encode($result);				
 
 	
 	}
@@ -314,10 +315,10 @@ class utils{
 	public function updateCart($id,$spl,$qty)
 	{
 
-                        $msg='';
+                        $res=array();
 
 			$found=false;
-
+                        
 				for($i=0;$i<count($_SESSION['CartItem']);$i++)
 				{
 
@@ -344,13 +345,15 @@ class utils{
 
 						);	
 
-						$_SESSION['CartItem'][$i]=$cart;	
-						$msg['res']=1;
+						$_SESSION['CartItem'][$i]=$cart;
+                                               
+						
 					}			
 
 				}								
-
-			echo json_encode($msg);
+                          $res['data']=$_SESSION['CartItem'];
+                          $res['res']=1;
+			echo json_encode($res);
 
 	}
 
@@ -365,6 +368,7 @@ class utils{
 		if(isset($_SESSION['CartItem']))
 
 		{
+                    $result=array();
 
 		$newCart=array();
 
@@ -396,7 +400,9 @@ class utils{
 
 		}
 
-			$_SESSION['CartItem']=$newCart;			
+			$_SESSION['CartItem']=$newCart;
+                        $result['data']=$newCart;
+                        $result['res']=1;
 
 			
 

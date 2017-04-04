@@ -1,4 +1,11 @@
-﻿
+
+
+#fixed-cart{
+    position:fixed;
+    top:15%;
+    right:1%;
+    width:39.5%!important;    
+}﻿
 .my-input{
 width: 21%;
     height: 28px;
