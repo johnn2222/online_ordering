@@ -162,9 +162,19 @@
 
 			 	<div class="menu-item-container" id="menuItemId-<?=$item->id?>">
 
-                
+                                        <?php                                         
+                                        $opnCart=array();
+                                        $opnCart["ids"]=$item->id;
+                                        $opnCart["sn"]=$i;
+                                        $opnCart["itemName"]=$item->name;
+                                        $opnCart["desc"]=$item->description;
+                                        $opnCart["price"]=$item->price;
+                                        $opnCart["addNow"]=1;
+                                        $opnData=  base64_encode(json_encode($opnCart));
+                                        
+                                        ?>
 
-				 	<div class="panel panel-default menu-item" data-target="#AddCart" data-toggle="modal" onclick="CartOpen('<?=$item->id?>','<?=$i?>','<?=$item->name?>','<?=$item->description?>','<?=$item->price?>','1');getAddon(<?=$item->id?>);">
+				 	<div class="panel panel-default menu-item" data-target="#AddCart" data-toggle="modal" onclick="CartOpen('<?=$opnData?>');">
 
 				 		<div class="menu-item-information has-image" data-container="body" data-toggle="popover" data-placement="top" data-content="This category is currently closed.">
 

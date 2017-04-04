@@ -42,6 +42,9 @@ $(document).ready(function() {
 
 //	alert(Root);
 
+        var cartdata="";
+          showCartItem(cartdata);
+
 $("#justBrowse").click(function(){
  
          var action = "justBrowse";
@@ -261,10 +264,17 @@ $('#Popup').modal({
 
  //item view in modal
 
- function CartOpen(ids,sn,itemName,desc,price,addNow)
-
+ function CartOpen(openData)
  {
-	
+     var opnData=atob(openData);
+        opnData=JSON.parse(opnData);
+        var ids=opnData.ids;
+        var sn=opnData.sn+1;
+        var itemName=opnData.itemName;
+        var desc=opnData.desc;
+        var price=opnData.price;
+        var addNow=opnData.addNow;
+	//ids,sn,itemName,desc,price,addNow
 
 	// alert(ids);
 
@@ -333,7 +343,6 @@ $('#Popup').modal({
 		$("#subTotal").html('<div class="pull-right"><strong>'+'Sub total $'+subtotal+'</strong></div>');
 
 		//end
-
 		
 
 		 if(addNow==2){		
@@ -379,7 +388,6 @@ $('#Popup').modal({
  
 
  function searchItems(key)
-
  {
 
 	 var action = "getSearch";
@@ -421,10 +429,11 @@ $('#Popup').modal({
 				var name = "'"+dt[i].name+"'";
 
 				var price = "'"+dt[i].price+"'";
-
+                               var openData={"ids":ids,"sn":sn,"itemName":name,"desc":desc,"price":price,"addNow":"1"};
+                               var openStrData=btoa(JSON.stringify(openData)); 
 				searchItem+='<div class="menu-item-container" id="menuItemId">';
-
-				searchItem+='<div class="panel panel-default menu-item"  data-toggle="modal" data-target="#AddCart"  onclick="CartOpen('+ids+','+sn+','+name+','+desc+','+price+','+1+');" >';
+                                
+				searchItem+='<div class="panel panel-default menu-item"  data-toggle="modal" data-target="#AddCart"  onclick="CartOpen("'+openStrData+'");" >';
 
 							searchItem+='<div class="menu-item-information has-image" data-container="body" data-toggle="popover" data-placement="top" data-content="This category is currently closed.">';
 
@@ -560,11 +569,11 @@ $('#Popup').modal({
 			
 			if(dt.res==1)
 			{			
-                            var carData=JSON.stringify(dt.data);
+                        var carData=JSON.stringify(dt.data);
 			window.localStorage.setItem("cartItem",carData);		
-			$("#side-cont").load(location.href + " #side-cont");			
+			//$("#side-cont").load(location.href + " #side-cont");			
 			$("#chkout").load(location.href + " #chkout");
-                       						
+                       	showCartItem(dt.data);					
 			}
 
 			//$(".loader2").empty();
@@ -604,15 +613,17 @@ function updateCart(updId,spl,qty)
 
 		success: function(data)
 		{
-
 			if(data.res==1)
 			{
-
+                            var carData=JSON.stringify(data.data);
+                            window.localStorage.setItem("cartItem",carData);
 				$("#PrdClose").trigger('click');
 
-                                        $("#side-cont").load(location.href + " #side-cont");					
+                                       // $("#side-cont").load(location.href + " #side-cont");					
 				       $("#chkout").load(location.href + " #chkout");	
 					//$(".loader2").empty();
+                                        //show cart item
+                                        showCartItem(data.data);
 			}
 
 		}
@@ -634,7 +645,7 @@ function removeAddon(addonId)
 
 		type:'post',
 
-		//dataType:"json",
+		dataType:"json",
 
 		cache:false,
 
@@ -648,12 +659,12 @@ function removeAddon(addonId)
 
 		success: function(data)
 		{
-			if(data)
+			if(data.res==1)
 			{		
 
-			$("#side-cont").load(location.href + " #side-cont");
-
+			     //$("#side-cont").load(location.href + " #side-cont");
 				$("#chkout").load(location.href + " #chkout");	
+                                showCartItem(data.data);
 
 			}
 
@@ -668,40 +679,32 @@ function removeAddon(addonId)
 //end
 
 function RemoveCartItem(id)
-
 {
-
 	var action = "removeCartItem";
 
 		$.ajax({
 
 		type:'post',
-
-		//dataType:"json",
-
-		cache:false,
-
+		dataType:"json",
+		cache:false,                
 		url:'process-library.php',
 
 		data:'removeId='+id+'&action='+action,
-		beforeSend: function()
-		{
-			$("#revId-"+id).empty().html('<img src="'+Root+'images/loadersmall.gif">');
-		},
+//		beforeSend: function()
+//		{
+//			$("#revId-"+id).empty().html('<img src="'+Root+'images/loadersmall.gif">');
+//		},
 
 		success: function(data)
-
 		{
 
-			if(data)
-			{		
-
-			$("#side-cont").load(location.href + " #side-cont");
-
-				$("#chkout").load(location.href + " #chkout");	
-
-				
-
+			if(data.res==1)
+			{                           
+			//$("#side-cont").load(location.href + " #side-cont");
+                        var carData=JSON.stringify(data.data);                       
+			window.localStorage.setItem("cartItem",carData);                         
+			$("#chkout").load(location.href + " #chkout");                      
+			showCartItem(data.data);
 			}
 
 		}
@@ -790,12 +793,8 @@ function SearchAddress(){
 		data:'addr='+addr+'&action='+action,
 
 		beforeSend: function()
-
 		{
-
-			$("#addLoader").html('<img src="'+Root+'images/loader.gif">');
-
-			
+			$("#addLoader").html('<img src="'+Root+'images/loader.gif">');			
 
 		},
 
@@ -957,7 +956,7 @@ $("#Go2").click(function(){
             			headMsg+='<div class="panel-body panel-header-right no-padding">';
             			headMsg+='<input type="hidden" id="orderTypeSet" value="'+dt.orderStsMsg+'" >';	
 
-            headMsg+='<strong style="color:#ea7f7f;">'+dt.orderStsMsg+'<a href="javascript:void(0);" id="orderType"><br /><small class="text-right">Change Order Type!</small></a></strong></div></div>';
+            headMsg+='<strong style="color:#ea7f7f;">'+dt.orderStsMsg+'<a href="javascript:;" id="orderType"><br /><small class="text-right">Change Order Type!</small></a></strong></div></div>';
 			
 
 						$(".close").trigger('click');
@@ -1410,3 +1409,77 @@ addon+='<span><input type="checkbox" name="addOn" class="addOn" value="'+dt[i].a
                 $("#fixed-cart").hide();
             }
         });	
+        
+        
+        
+        function showCartItem(getData){
+           var cartData="";           
+           if(getData!=""){  
+               
+                cartData=getData;     
+                }else{
+                    if(window.localStorage.getItem("cartItem")){                      
+                     cartData=window.localStorage.getItem("cartItem");
+                     cartData=JSON.parse(cartData);
+//                     alert(JSON.stringify(cartData));
+                    }else{
+                       cartData=getData;     
+                    }
+                }              
+                
+                var temp='';                       
+                 temp='<div class="row no-padding">';
+                         for(var i=0;i<cartData.length;i++){     
+                        temp+='<div class="col-lg-12 no-padding">';   
+                        temp+='<div class="col-xs-3">';                       
+                        temp+='<input type="hidden" name="price" value="'+cartData[i].price+'" id="cartPrice" />';
+                        temp+='<input type="hidden" name="spl" value="'+cartData[i].spl+'" id="Spl-'+cartData[i].id+'" />';
+                        temp+='<div id="orderQtyH-'+cartData[i].id+'">';
+                        temp+='<div class="checkout-quantity" style="float:left;" onClick="CatQtyMinus('+cartData[i].id+')">';
+                        temp+='<i class="fa fa-minus-circle cart-item-desc" style="margin: 4px;"></i></div>'; 
+                        temp+='<input id="sideQty-'+cartData[i].id+'" readonly="readonly" type="text" class="my-input2"  maxlength="4" autocomplete="off" value="'+cartData[i].qty+'">';
+                        temp+='<div class="checkout-quantity qty-asc" style="float:left;" onclick="CatQtyPlus('+cartData[i].id+');"><i class="fa fa-plus-circle cart-item-asc" id="CatQtyPlus" style="margin: 4px;"></i></div>';
+                        temp+='</div>';
+                       temp+='</div>';
+                    temp+='<div class="col-xs-3 checkout-item lang-item no-padding">';
+                    temp+='<span class="order-item-name">'+cartData[i].name+'</span>';                                 
+                   if(cartData[i].spl!=""){
+                    temp+='<div class="col-lg-12"><small class="text-color"><em>'+cartData[i].spl+'</em></small></div>';
+                    }
+                    var total=cartData[i].price*cartData[i].qty;
+                    temp+='</div>';
+                    temp+='<div class="col-xs-2 checkout-price lang-price">$ '+cartData[i].price+'</div>';
+		   temp+='<div class="col-xs-2 checkout-price lang-price">$ '+total.toFixed(2)+'</div>';                     
+                   temp+='<div class="col-xs-1 checkout-edit">';
+                   var Id= cartData[i].id;
+                   var indx=i;
+                   var name=cartData[i].name;
+                   var desc=cartData[i].des;
+                   var price=cartData[i].price;              
+                 
+                   var openData={"ids":Id,"sn":indx,"itemName":name,"desc":desc,"price":price,"addNow":"2"};
+                   var openStrData=btoa(JSON.stringify(openData));                             
+                   
+                   temp+='<a href="javascript:;" data-target="#AddCart" data-toggle="modal" onclick=CartOpen("'+openStrData+'")>';                   
+                   temp+='<span class="glyphicon glyphicon-edit text-danger cart-item-edit"  title="Edit" idx="0"></span></a>';
+                   temp+='</div>';
+                   temp+='<div class="col-xs-1 checkout-close">';
+                   temp+='<a href="javascript:;" onclick="RemoveCartItem('+cartData[i].id+')"><span class="glyphicon glyphicon-remove text-danger cart-item-remove"  title="Remove"></span>';
+                   temp+='</a>';
+                   temp+='</div>';
+                   temp+='</div>';
+                    
+                    }
+                    temp+='</div>';
+                  
+                   if(cartData){
+                  $("#cartData").empty().html(temp); 
+                    }else{
+                      temp='<div class=" text-center lang-empty-cart " id="emptyCart">Cart is empty</div>';  
+                      $("#cartData").empty().html(temp); 
+                    }
+        }
+        
+    
+         
+      

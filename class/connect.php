@@ -17,25 +17,24 @@ class connect
 
 
 	function __construct()
-
 	{
             //localhost 
-//            $this->host = 'localhost';
-//
-//		$this->username = 'root';
-//
-//		$this->password = '';
-//
-//		$this->database = 'online_order';
+            $this->host = 'localhost';
+
+		$this->username = 'root';
+
+		$this->password = '123456';
+
+		$this->database = 'online_order';
                 
 //
-		$this->host = '50.62.209.151:3306';
-
-		$this->username = 'lovash_indian';
-
-		$this->password = 'lovash@indian';
-
-		$this->database = 'online_ordering_lovash';
+//		$this->host = '50.62.209.151:3306';
+//
+//		$this->username = 'lovash_indian';
+//
+//		$this->password = 'lovash@indian';
+//
+//		$this->database = 'online_ordering_lovash';
 
 	}
 

@@ -316,7 +316,7 @@ class utils{
 	{
 
                         $res=array();
-
+                        $defaultData=array();
 			$found=false;
                         
 				for($i=0;$i<count($_SESSION['CartItem']);$i++)
@@ -346,7 +346,7 @@ class utils{
 						);	
 
 						$_SESSION['CartItem'][$i]=$cart;
-                                               
+                                              
 						
 					}			
 
@@ -360,20 +360,16 @@ class utils{
 	
 
 	public function removeCartItem($id)
-
 	{
-
 		//echo $id;
-
+                $result=array();
 		if(isset($_SESSION['CartItem']))
-
 		{
-                    $result=array();
+                    
 
 		$newCart=array();
 
 		foreach($_SESSION['CartItem'] as $cartItem)
-
 		{
 
 			//print_r($cartItem);
@@ -388,11 +384,7 @@ class utils{
 
 						//unset($_SESSION['CartItem'][$id]);
 
-						
-
-					}
-
-									
+					}				
 
 										
 
@@ -401,8 +393,9 @@ class utils{
 		}
 
 			$_SESSION['CartItem']=$newCart;
-                        $result['data']=$newCart;
+                        $result['data']=$_SESSION['CartItem'];
                         $result['res']=1;
+                    echo json_encode($result);    
 
 			
 
@@ -415,7 +408,7 @@ class utils{
 	//remove addon
 	public function removeAddon($id)
 	{	
-
+                 $result=array();
 		if(isset($_SESSION['addOns']))
 		{
 		$newCart=array();
@@ -434,7 +427,10 @@ class utils{
 		}
 
 			$_SESSION['addOns']=$newCart;		
-
+                        $result['data']=$_SESSION['CartItem'];
+                        $result['data']['addOns']=$newCart;
+                        $result['res']=1;
+                           echo json_encode($result); 
 	}
 	//end
 
