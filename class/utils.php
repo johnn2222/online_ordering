@@ -300,10 +300,11 @@ class utils{
 		}		
 		if(isset($_SESSION['CartItem']))
 		{
-                $result['data']=$_SESSION['CartItem'];    
+                $result['data']=$_SESSION['CartItem'];
+                $result['addOns']=$_SESSION['addOns'];
 		$result['res']=1;	
 		}
-		echo json_encode($result);				
+		echo json_encode($result);			
 
 	
 	}
@@ -352,6 +353,7 @@ class utils{
 
 				}								
                           $res['data']=$_SESSION['CartItem'];
+                          $res['addOns']=$_SESSION['addOns'];
                           $res['res']=1;
 			echo json_encode($res);
 

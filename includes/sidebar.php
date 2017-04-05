@@ -2,8 +2,7 @@
 
           <div id="side-cont">
 
-            <input type="hidden" id="mainStatus" value="<?=$_SESSION['utils']['mainStatus'];?>" />
-  
+            <input type="hidden" id="mainStatus" value="<?=$_SESSION['utils']['mainStatus'];?>" />  
 			<?php /*
 			echo "<pre>";
 			print_r($_SESSION);
@@ -120,149 +119,18 @@
                         <div id="cartData"></div>
                         
                     </div>
-
-		 <?php 
-			 if(!empty($_SESSION['addOns']))
-			 {
-			 $addonTotal='';
-			//echo $cart['id'];?>
-            	<span><strong>Addons: </strong>
-             <?php    
-			 foreach($_SESSION['addOns'] as $addonItem){?>
-			 <small><?=$addonItem['addon_name']."  $".$addonItem['addon_price']?><a href="javascript:;" id="rev<?=$addonItem['addon_id']?>" onclick="removeAddon(<?=$addonItem['addon_id']?>);">&times;</a></small></span>
-             <?php 			 
-			 	$addonTotal+=$addonItem['addon_price'];
-			 }
-			 
-		}?> 
-        
+                    <input type="hidden" id="addOnTotal" value="0">
+                    <div id="addOnData"></div>
      			
 
        			 </div>
-               
+     
+                 <div id="calcualtionPart"></div>
 <?php
-//CHECK IF ITEM IN CART
-if(isset($_SESSION['CartItem']) && !empty($_SESSION['CartItem'])){?>
-            <div class="total-row">
-
-                <div class="pull-left"><span>Sub -Total:</span></div>                
-<?php $subTotal=($subTotal+$addonTotal);?>
-                <div id="cart-sub-total" class="pull-right cart-sub-total"><?="$ ".$subTotal?></div>
-                <input type="hidden" id="subTotal" value="<?=$subTotal?>">
-                <?php $_SESSION['utils']['sub_total']=($subTotal);?>
-
-            </div>
-
-          
+   
 
             
 
-            <div class="total-row ">      
-
-                <div class="pull-left">Discount:</div>
-
-                <?php
-				 //tax calculate
-
-				$vat=tax_val;
-					
-				$grand=($subTotal+$addonTotal)-$itemDiscount;
-
-				if($grand >=50)
-				{
-				$mainDiscount =($subTotal*15/100);
-				$_SESSION['utils']['mainDiscount']=$mainDiscount;		
-				}
-				else
-				{
-				$mainDiscount=0;
-				$_SESSION['utils']['mainDiscount']=$mainDiscount;	
-				}
-				
-				$tax=($grand*$vat/100);
-				$_SESSION['utils']['tax']=$tax;
-				$grandTotal=($grand-$mainDiscount)+$tax;
-                                ?>
-
-                <div id="cart-discount" class="pull-right cart-discount" discount_type="percent">$ <?=$mainDiscount?></div>
-
-            </div>
-
-         
-         
-            <div class="total-row ">
-
-                <div class="pull-left">
-
-                    <span>
-
-                        <?=text_tax?> 				</span>:
-
-                </div>
-
-              
-
-                <div id="cart-taxes" class="pull-right cart-taxes" >$ <?=round($tax,2)?></div>
-
-            </div>
-
-                
-                <?php if($addonTotal!=""){?>            
-            <div class="total-row">
-
-                <div class="pull-left"><span class="lang-delivery-fee"><strong>Addons</strong></span>:</div>
-
-                <div id="cart-delivery-fee" class="pull-right text-right">
-
-                $ <?=$addonTotal?>.00
-              </div>
-
-            </div>
-            <?php }?>
-
-
-           <div class="total-row">
-
-                <div class="pull-left"><span class="lang-delivery-fee">Tip</span>:</div>
-
-                <div id="cart-delivery-fee" class="pull-right text-right">
-
-                <strong>$</strong> 
-
-               <input type="text" onblur="Tip(this.value)" name="tip" value="<?=$_SESSION['utils']['tip']?>" class="my-input"  id="tip"/></div>
-
-            </div>
-			
-
-            <div class="total-row">	
-
-            <div class="col-lg-12 no-padding no-margin">
-
-            <div id="coupanMsg"></div>
-
-            	  <div class="col-lg-2 no-padding">
-
-                <div class="pull-left"><span class="lang-delivery-fee"><strong>Coupon</strong></span>:</div>
-
-                </div>
-
-                <div class="col-lg-4 no-padding">
-
-                <div id="cart-delivery-fee" class="pull-left text-left">
-
-               <input type="text" name="coupanCode" class="form-control"  id="coupanCode" placeholder="enter your coupon code"/>
-
-                </div>
-
-                </div>
-
-                <div class="col-lg-3 pull-left text-left no-padding" style="margin-left:2px;">
-
-                <div id="Loader"></div>
-
-          <input type="button" name="apply" id="apply" onClick="ValidateCoupan();" value="Apply Now" class="btn btn-primary" />
-
-                </div>
 
                
 

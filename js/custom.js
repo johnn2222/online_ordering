@@ -39,11 +39,15 @@ function openItemList(id){
 
 
 $(document).ready(function() {
-
-//	alert(Root);
-
+    //define tax;
+   var tax_val=8;
+   var text_tax="Tax (8%)";
+        //for cart
         var cartdata="";
           showCartItem(cartdata);
+          //for addon
+          var addOnData="";
+          showAddOn(addOnData);
 
 $("#justBrowse").click(function(){
  
@@ -573,7 +577,14 @@ $('#Popup').modal({
 			window.localStorage.setItem("cartItem",carData);		
 			//$("#side-cont").load(location.href + " #side-cont");			
 			$("#chkout").load(location.href + " #chkout");
-                       	showCartItem(dt.data);					
+                       	showCartItem(dt.data);				
+                            //if addon
+                            if(dt.addOns){
+                             var addonData=JSON.stringify(dt.addOns);
+			     window.localStorage.setItem("addOns",addonData);
+                              showAddOn(dt.addOns);
+                            }
+                            //end
 			}
 
 			//$(".loader2").empty();
@@ -624,6 +635,14 @@ function updateCart(updId,spl,qty)
 					//$(".loader2").empty();
                                         //show cart item
                                         showCartItem(data.data);
+                                        
+                                         //if addon
+                                     if(data.addOns){
+                                    var addonData=JSON.stringify(data.addOns);
+                                     window.localStorage.setItem("addOns",addonData);
+                                      showAddOn(data.addOns);
+                                        }
+                                    //end
 			}
 
 		}
@@ -652,10 +671,10 @@ function removeAddon(addonId)
 		url:'process-library.php',
 
 		data:'addonId='+addonId+'&action='+action,
-		beforeSend: function()
-		{
-			$("#rev"+addonId).empty().html('<img src="'+Root+'images/loadersmall.gif">');
-		},
+//		beforeSend: function()
+//		{
+//			$("#rev"+addonId).empty().html('<img src="'+Root+'images/loadersmall.gif">');
+//		},
 
 		success: function(data)
 		{
@@ -665,6 +684,14 @@ function removeAddon(addonId)
 			     //$("#side-cont").load(location.href + " #side-cont");
 				$("#chkout").load(location.href + " #chkout");	
                                 showCartItem(data.data);
+                                  //if addon
+                                     if(data.addOns){
+                                    var addonData=JSON.stringify(data.addOns);
+                                     window.localStorage.setItem("addOns",addonData);
+                                     showAddOn(data.addOns);
+                                        }
+                                       
+                                    //end
 
 			}
 
@@ -1271,39 +1298,39 @@ function ChooseOpt(delpic)
 	
 
 	function Tip(tip){
-
-			var action ="Tip";
-
-		$.ajax({
-
-			type:'POST',
-
-			cache:false,
-
-			//dataType:"json",			
-
-			url:'process-library.php',
-
-			data:'action='+action+'&TipAmt='+tip,
-
-				success:function(dt){    	
-
-				//alert(dt);
-
-					if(dt==1)
-
-					{
-
-						$("#side-cont").load(location.href + " #side-cont");
-
-						$("#chkout").load(location.href + " #chkout");			
-
-					}
-
-				}
-
-		});
-
+            window.localStorage.setItem("Tip",tip);
+            $("#chkout").load(location.href + " #chkout");	 
+//			var action ="Tip";
+//
+//		$.ajax({
+//
+//			type:'POST',
+//
+//			cache:false,
+//
+//			dataType:"json",			
+//
+//			url:'process-library.php',
+//
+//			data:'action='+action+'&TipAmt='+tip,
+//
+//				success:function(dt){    	
+//
+//				//alert(dt);
+//
+//					if(dt==1)
+//					{
+//
+//						//$("#side-cont").load(location.href + " #side-cont");
+//
+//						$("#chkout").load(location.href + " #chkout");			
+//
+//					}
+//
+//				}
+//
+//		});
+//
 	}
 
 	//end
@@ -1356,10 +1383,10 @@ function ChooseOpt(delpic)
 			data:'action='+action+'&pId='+pId,
 			dataType:"json",
 			cache:false,
-			beforeSend: function()
-			{
-			$("#AddOn").html('<center><img src="'+Root+'images/loader.gif"></center>');	
-			},
+//			beforeSend: function()
+//			{
+//			$("#AddOn").html('<center><img src="'+Root+'images/loader.gif"></center>');	
+//			},
 			success: function(dt)
 			{
 				//alert(dt);			
@@ -1411,6 +1438,35 @@ addon+='<span><input type="checkbox" name="addOn" class="addOn" value="'+dt[i].a
         });	
         
         
+        function showAddOn(addOnData){            
+           
+            var addons="";           
+           if(addOnData!=""){           
+                addons=addOnData;     
+                }else{
+                    if(window.localStorage.getItem("addOns")){                      
+                     addons=window.localStorage.getItem("addOns");
+                     addons=JSON.parse(addons);
+//                     alert(JSON.stringify(cartData));
+                    }else{
+                       addons=addOnData;     
+                    }
+                }
+                
+            if(addons!=""){
+                var addonTotal=0;
+                var addon="";
+            	addon='<span><strong>Addons: </strong>';
+                 for(var i=0;i<addons.length;i++){
+                     var price="$ "+addons[i].addon_price;
+                addon+='<small>"'+addons[i].addon_name+'"+"'+price+'"';
+                addon+='<a href="javascript:;" id="rev'+addons[i].addon_id+'" onclick="removeAddon('+addons[i].addon_id+');">&times;</a></small></span>';    
+                addonTotal+=addons[i].addon_price;
+                }			
+                $("#addOnData").empty().html(addon);
+                $("#addOnTotal").val(addonTotal);
+             }
+         }   
         
         function showCartItem(getData){
            var cartData="";           
@@ -1427,7 +1483,10 @@ addon+='<span><input type="checkbox" name="addOn" class="addOn" value="'+dt[i].a
                     }
                 }              
                 
-                var temp='';                       
+                var calc='';
+                var temp='';          
+                var subTotal=0;
+                var itemDiscount=0;
                  temp='<div class="row no-padding">';
                          for(var i=0;i<cartData.length;i++){     
                         temp+='<div class="col-lg-12 no-padding">';   
@@ -1447,6 +1506,8 @@ addon+='<span><input type="checkbox" name="addOn" class="addOn" value="'+dt[i].a
                     temp+='<div class="col-lg-12"><small class="text-color"><em>'+cartData[i].spl+'</em></small></div>';
                     }
                     var total=cartData[i].price*cartData[i].qty;
+                    itemDiscount+=cartData[i].discount;
+                    subTotal+=total;
                     temp+='</div>';
                     temp+='<div class="col-xs-2 checkout-price lang-price">$ '+cartData[i].price+'</div>';
 		   temp+='<div class="col-xs-2 checkout-price lang-price">$ '+total.toFixed(2)+'</div>';                     
@@ -1471,9 +1532,69 @@ addon+='<span><input type="checkbox" name="addOn" class="addOn" value="'+dt[i].a
                     
                     }
                     temp+='</div>';
+                    
+                    //calculation content total subtotal etc
+                        var addOnTotal=$("#addOnTotal").val();                    
+                     calc='<div class="total-row">';
+                     calc+='<div class="pull-left"><span>Sub -Total:</span></div>';
+                     calc+='<div id="cart-sub-total" class="pull-right cart-sub-total">$ '+subTotal.toFixed(2)+'</div>';
+                     calc+='<input type="hidden" id="subTotal" value="'+subTotal+'">';                
+                     calc+='</div>';
+                    //end
+                    
+                    calc+='<div class="total-row ">';
+                    calc+='<div class="pull-left">Discount:</div>';
+                    var grand=(subTotal+addOnTotal)-itemDiscount;
+                    var mainDiscount=0;
+                        if(grand>=50){
+                             mainDiscount=(subTotal*15/100);                            
+                        }
+                       var tax=(grand*tax_val/100);
+                       var grandTotal=(grand-mainDiscount)+tax;                       
+                     calc+='<div id="cart-discount" class="pull-right cart-discount" discount_type="percent">$ '+mainDiscount+'</div>';
+                     calc+='</div>';                          
+                     calc+='<div class="total-row ">';
+                    calc+='<div class="pull-left">';
+                    calc+='<span>'+text_tax+'</span>';
+                    calc+='</div>';
+                    calc+='<div id="cart-taxes" class="pull-right cart-taxes" >$ '+tax.toFixed(2)+'</div>';
+                    calc+='</div>';                
+                    if(addOnTotal>0){            
+                        calc+='<div class="total-row">';
+                        calc+='<div class="pull-left"><span class="lang-delivery-fee"><strong>Addons</strong></span>:</div>';
+                        calc+='<div id="cart-delivery-fee" class="pull-right text-right">$ '+addOnTotal+'.00</div></div>';            
+                            }
+                  calc+='<div class="total-row">'
+                  calc+='<div class="pull-left"><span class="lang-delivery-fee">Tip</span>:</div>';
+                  calc+='<div id="cart-delivery-fee" class="pull-right text-right">';
+                  calc+='<strong>$</strong>';
+                  var Tip="";
+                  if(window.localStorage.getItem("Tip")){
+                      var Tip=window.localStorage.getItem("Tip");
+                  }
+                  calc+='<input type="text" onblur="Tip(this.value)" name="tip" value="'+Tip+'" class="my-input"  id="tip"></div>';
+                  calc+='</div>';
+                  calc+='<div class="total-row">';
+                  calc+='<div class="col-lg-12 no-padding no-margin">';
+                  calc+='<div id="coupanMsg"></div>';
+            	  calc+='<div class="col-lg-2 no-padding">';
+                  calc+='<div class="pull-left"><span class="lang-delivery-fee"><strong>Coupon</strong></span>:</div>';
+                  calc+='</div>';
+                  calc+='<div class="col-lg-4 no-padding">';
+                  calc+='<div id="cart-delivery-fee" class="pull-left text-left">';
+                  calc+='<input type="text" name="coupanCode" class="form-control"  id="coupanCode" placeholder="enter your coupon code"/>';
+                  calc+='</div>';
+                  calc+='</div>';
+                calc+='<div class="col-lg-3 pull-left text-left no-padding" style="margin-left:2px;">';
+                calc+='<div id="Loader"></div>';
+                calc+='<input type="button" name="apply" id="apply" onClick="ValidateCoupan();" value="Apply Now" class="btn btn-primary" />';
+                calc+='</div>';     
+                            
+                         //end
                   
                    if(cartData){
-                  $("#cartData").empty().html(temp); 
+                  $("#cartData").empty().html(temp);
+                  $("#calcualtionPart").empty().html(temp);                  
                     }else{
                       temp='<div class=" text-center lang-empty-cart " id="emptyCart">Cart is empty</div>';  
                       $("#cartData").empty().html(temp); 
