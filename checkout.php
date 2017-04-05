@@ -1,11 +1,4 @@
-<?php include_once('includes/header.php');
-if($_SESSION['utils']['mainStatus']=="delivery"  &&$_SESSION['utils']['sub_total']<15 || $_SESSION['utils']['mainStatus']==1){
-?>
-<script>
-document.location.href="http://www.a2zwebmaster.com/online_ordering/";
-</script>
-<?php }?>   
-
+<?php include_once('includes/header.php');?>
    <div class="content" id="Main-Cont">   
 
     	<div class="col-lg-12 col-sm-12">
@@ -42,8 +35,7 @@ document.location.href="http://www.a2zwebmaster.com/online_ordering/";
     
                       <div id="checkoutNew">    
     
-                     <form action="" id="CheckoutForm" method="post" >
-    
+                     <form action="" id="CheckoutForm" method="post" >    
                           <?php
 						   if(isset($_SESSION['addOns']))
 						  	{
@@ -228,3 +220,17 @@ echo  "</pre>";*/
 
 <?php include_once('includes/footer.php');?>
 
+<script>   
+    var chkout=window.localStorage.getItem("checkoutInfo");
+        chkout=JSON.parse(chkout);
+    
+    if(window.localStorage.getItem("utils")){        
+        var utilsData=JSON.parse(window.localStorage.getItem("utils"));
+        }
+        
+         if(utilsData.mainStatus=="delivery" && chkout.subTotal<15 || utilsData.mainStatus==1){
+            //document.location.href="http://www.a2zwebmaster.com/online_ordering/";
+            document.location.href="http://localhost/online_ordering/";
+        }
+
+</script>

@@ -705,16 +705,15 @@ class utils{
 		$insert=mysql_query($qry)or die(mysql_error());
 
 		$insert_id=mysql_insert_id();
-		if(isset($_SESSION['CartItem'])){
+           
+		if(isset($_SESSION['CartItem'])){                   
+//                       $log='';
 			foreach($_SESSION['CartItem'] as $cart)
-			{
-				
-			
-					
-			$sql=mysql_query("insert into order_items set order_id='$insert_id',prd_id='".$cart['id']."',item_name='".$cart['name']."',price='".$cart['price']."',qty='".$cart['qty']."',special_instruction='".$cart['spl']."' ")or die(mysql_error());
-					
-				
-			}
+			{		
+                         $qr="insert into order_items set order_id='$insert_id',prd_id='".$cart['id']."',item_name='".$cart['name']."',price='".$cart['price']."',qty='".$cart['qty']."',special_instruction='".$cart['spl']."' ";  
+//                         $log.=$qr."<br>";
+			mysql_query($qr)or die(mysql_error());								
+			}                   
 		}
 		
 		

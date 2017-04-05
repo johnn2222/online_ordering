@@ -121,7 +121,8 @@ if ($objConnect->checkConnection())
 	break;
 
 	case 'justBrowse':
-	$_SESSION['utils']['mainStatus']=$_POST['status'];            
+	$_SESSION['utils']['mainStatus']=$_POST['status'];  
+            
         break;
 
 	case 'ChoosePickup':
@@ -131,26 +132,29 @@ if ($objConnect->checkConnection())
 	$_SESSION['utils']['nowltrSts']=$_POST['nowltrSts'];
 
 	$_SESSION['utils']['customeTime']=$_POST['customTime'];
-
+                $res=array();
 		$msg='';
 
 		if($_POST['customTime']!="")
 
 		{
 			$_SESSION['utils']['msg']="Your Pickup will be ready According to your time (".$_POST['customTime'].")";
-		$msg['orderStsMsg']="Your Pickup will be ready According to your time (".$_POST['customTime'].")";
+		$msg="Your Pickup will be ready According to your time (".$_POST['customTime'].")";
 
 		}
 
 		else{
 			$_SESSION['utils']['msg']="Your Pickup will be ready in next 25 minutes.";
-			$msg['orderStsMsg']="Your Pickup will be ready in next 25 minutes.";
+			$msg="Your Pickup will be ready in next 25 minutes.";
 
 		}
-		
-		
-
-	echo json_encode($msg); 
+          $res['data']=$_SESSION['CartItem'];
+          $res['utils']['utilsMsg']=$msg;
+          $res['utils']['mainStatus']=$_SESSION['utils']['mainStatus'];
+          $res['utils']['nowltrSts']=$_SESSION['utils']['nowltrSts'];
+          $res['utils']['customeTime']=$_SESSION['utils']['customeTime'];
+          $res['res']=1;
+	echo json_encode($res); 
 
 	break;
 
@@ -192,28 +196,15 @@ if ($objConnect->checkConnection())
 	}
 
 	break; 
-
 	
 
 	case'Tip':
-
 	$_SESSION['utils']['tip']=$_POST['TipAmt'];
-
-	if(isset($_SESSION['utils']['tip']))
-
-	{
-
-	echo 1;	
-
-	}
-
-	else{
-
-		echo 0;
-
-	}
-
-	break;
+           $res=array();
+          $res['res']=1;
+          $res['data']=$_SESSION['CartItem'];
+          echo json_encode($res);
+          break;
 	
 	case'addons':           
 	$utils = new utils();           
@@ -226,8 +217,8 @@ if ($objConnect->checkConnection())
 
 	$utils = new utils();
 
-	$utils->insetOrder($_POST['info'],$_POST['nowltrSts']);
-	session_destroy();
+	$utils->insetOrder($_POST['info'],$_POST['nowltrSts']);        
+	session_destroy();      
 	//header('location:'.WEBROOT);
 	break;	
 
