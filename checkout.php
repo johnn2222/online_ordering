@@ -229,8 +229,8 @@ echo  "</pre>";*/
         }
         
          if(utilsData.mainStatus=="delivery" && chkout.subTotal<15 || utilsData.mainStatus==1){
-            //document.location.href="http://www.a2zwebmaster.com/online_ordering/";
-            document.location.href="http://localhost/online_ordering/";
+            document.location.href="http://www.a2zwebmaster.com/online_ordering/";
+            //document.location.href="http://localhost/online_ordering/";
         }
 
 </script>
