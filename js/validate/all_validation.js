@@ -180,72 +180,7 @@ $("#CheckoutForm").validate({
 
    
 
-   $("#Go").click(function(){
-
-	   DelSts='';
-
-	   Address='';
-
-	    if($("#popupForm").valid())
-
-		{
-
-			DelSts+= $("#DelPick").val();	
-
-			Address+=$("#LocSearch").val();
-
-		}
-
-		
-
-			var action ="ChooseDelivery";
-
-				 $.ajax({
-
-				type:'POST',
-
-				url:"process-library.php",
-
-				cache:false,
-				dataType:"json",
-				data:'action='+action+'&DelSts='+DelSts+'&Address='+Address,
-
-				success: function(dt)
-
-					{
-
-						
-						
-						headMsg='';
-						 headMsg+='<div class="border-panel margin-bottom">';
-            			headMsg+='<div class="panel-body panel-header-right no-padding">';
-            			headMsg+='<input type="hidden" id="orderTypeSet" value="'+dt.ordStsMsg+'" >';	
-
-            headMsg+='<strong style="color:#ea7f7f;">'+dt.ordStsMsg+'<a href="javascript:void(0);" id="orderType"><br /><small class="text-right">Change Order Type!</small></a></strong></div></div>';
-
-						
-			
-					$(".close").trigger('click');
-						$("#side-cont").load(location.href + " #side-cont");
-						$("#chkout").load(location.href + " #chkout");		
-
-						
-					$("#headerMsg").empty().html(headMsg);
-							//end
-
-							
-
-						
-
-					}
-
-					 
-
-				 });
-
   
-
-  			 });
 
 	 
 

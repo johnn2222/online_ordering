@@ -440,9 +440,9 @@
 
             <input type="hidden" id="getLong" value="<?=$lng?>" />           
 
-                <div id="map-canvas" style="width:100%; height:230px;overflow:scroll;">
+<!--                <div id="map-canvas" style="width:100%; height:230px;overflow:scroll;">
 
-                </div>
+                </div>-->
 
                 
 

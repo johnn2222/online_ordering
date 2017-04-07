@@ -288,12 +288,13 @@ $('#Popup').modal({
 	 $("#itemPrice").html('<div class="pull-right"><strong>'+'$'+price+'</strong></div><Br>');
 
 	var qty=document.getElementById('quantity-selector');
+//                price=parseFloat(price);
+                qty=qty.value;
+		var subtotal=(qty*price);
+                
+              			
 
-		subtotal=(qty.value*price);
-
-				
-
-	 $("#subTotal").html('<div class="pull-right"><strong>'+'Sub total $'+subtotal+'</strong></div>');
+	 $("#subTotal").html('<div class="pull-right"><strong>'+'Sub total $'+subtotal.toFixed(2)+'</strong></div>');
 
 	 	 
 
@@ -912,7 +913,56 @@ function SearchAddress(){
 
 
 $(document).ready(function(){
-$("#Go2").click(function(){			
+    
+    //for delivery
+     $("#Go").click(function(){
+
+	   DelSts='';
+
+	   Address='';
+
+	    if($("#popupForm").valid())
+		{
+
+			DelSts+= $("#DelPick").val();	
+
+			Address+=$("#LocSearch").val();
+
+		}
+
+			var action ="ChooseDelivery";
+				 $.ajax({
+				type:'POST',
+				url:"process-library.php",
+				cache:false,
+				dataType:"json",
+				data:'action='+action+'&DelSts='+DelSts+'&Address='+Address,
+                                success: function(dt)
+					{  
+                                            if(dt.res==1){
+                                            $(".close").trigger('click');
+                                            $("#chkout").load(location.href + " #chkout");												                                            
+                                            //set orderstatus
+                                            showOrderStatus(dt.utils); 
+                                            window.localStorage.setItem("utils",JSON.stringify(dt.utils));                                                                                       
+                                            //cal show cart
+                                            var d="";
+                                            showCartItem(d); 
+                                            //end
+                                             
+                                            //end                                    
+                                           
+                                            }
+					}
+				 });
+
+  
+
+  			 });
+    //end
+    
+    
+                            $("#Go2").click(function(){			
 				DelSts='';
 
 				$("input[name='DelPick']:checked").each(function(index, element) {
@@ -1410,6 +1460,7 @@ addon+='<span><input type="checkbox" name="addOn" class="addOn" value="'+dt[i].a
                    $("#mainStatus").val(utilsData.mainStatus);
                    $("#nowltrStatus").val(utilsData.nowltrSts);
                    $("#customeTime").val(utilsData.customeTime);
+                    $("#deliverAddress").val(utilsData.address);
                    
                    var headMsg='';
                    headMsg+='<div class="border-panel margin-bottom">';
@@ -1621,11 +1672,11 @@ addon+='<span><input type="checkbox" name="addOn" class="addOn" value="'+dt[i].a
                 
             
                          //end
-              
-                   if(cartData){
+         
+                   if(cartData!=""){               
                   $("#cartData").empty().html(temp);
                   $("#calcualtionPart").empty().html(calc);                  
-                    }else{
+                    }else{                     
                       var temp2='<div class=" text-center lang-empty-cart " id="emptyCart">Cart is empty</div>';  
                       $("#cartData").empty().html(temp2); 
                       $("#calcualtionPart").empty().html("");  

@@ -165,9 +165,8 @@ if ($objConnect->checkConnection())
 	
 
 	case 'ChooseDelivery':
-
+         $res=array();
 	if($_POST['DelSts']!="")
-
 	{
 		$msg='';
 
@@ -176,11 +175,8 @@ if ($objConnect->checkConnection())
 	$_SESSION['utils']['address']=$_POST['Address'];
 
 	$_SESSION['utils']['msg']="Your Package will be delivered in Next 60 minutes";
-	$msg['ordStsMsg']="Your Package will be delivered in Next 60 minutes";
-	
-
-		//clear session
-
+	$msg="Your Package will be delivered in Next 60 minutes";
+	//clear session
 		$_SESSION['utils']['DelSts']=$_POST['DelSts'];
 
 		$_SESSION['utils']['nowltrSts']=$_POST['nowltrSts'];
@@ -190,8 +186,14 @@ if ($objConnect->checkConnection())
 	
 
 		//end
-
-	echo json_encode($msg);
+            $res['data']=$_SESSION['CartItem'];
+          $res['utils']['utilsMsg']=$msg;
+          $res['utils']['mainStatus']=$_SESSION['utils']['mainStatus'];
+          $res['utils']['nowltrSts']=$_SESSION['utils']['nowltrSts'];
+          $res['utils']['customeTime']=$_SESSION['utils']['customeTime'];
+          $res['utils']['address']=$_SESSION['utils']['address'];
+          $res['res']=1;
+	echo json_encode($res);
 
 	}
 
