@@ -1,4 +1,5 @@
-<?php include_once('includes/header.php');?>
+<?php include_once('includes/header.php');
+?>
    <div class="content" id="Main-Cont">   
 
     	<div class="col-lg-12 col-sm-12">
@@ -8,7 +9,7 @@
                     <div class="col-sm-7 col-lg-7">
     
                     <h5>Checkout</h5>
-    
+                    
                     <hr />
     
                     
@@ -62,21 +63,20 @@
                        
                      <input type="hidden"  name="info[address]" value="<?=$_SESSION['utils']['address']?>" />
     
-                     <input type="hidden" name="info[tax]"  value="<?=round($_SESSION['utils']['tax'],2)?>" />
+                     <input type="hidden" name="info[tax]" id="tax"  />
     
-                      <input type="hidden" name="info[discount]" value="<?=$_SESSION['utils']['mainDiscount']?>" />
+                      <input type="hidden" name="info[discount]" id="mainDis" />
     
-                      <input type="hidden" name="info[sub_total]" value="<?=$_SESSION['utils']['sub_total']?>" />
-    
+                      <input type="hidden" name="info[sub_total]" id="subTotal" />   
                         
     
                          <input type="hidden" name="info[coupan_discount]" value="<?=$_SESSION['utils']['applied_coupan']?>" />
     
                          <input type="hidden" name="info[coupan_code]" value="<?=$_SESSION['utils']['coupan_code']?>" />
     
-                         <input type="hidden"  name="info[tip]" value="<?=$_SESSION['utils']['tip']?>" />
+                         <input type="hidden"  name="info[tip]" id="tipAmt" />
     
-                      <input type="hidden" name="info[total_amount]" value="<?=round($_SESSION['utils']['grandTotal'],2)?>" />
+                      <input type="hidden" name="info[total_amount]" id="grandTotal" />
     
                     
     
@@ -220,9 +220,16 @@ echo  "</pre>";*/
 
 <?php include_once('includes/footer.php');?>
 
-<script>   
-    var chkout=window.localStorage.getItem("checkoutInfo");
-        chkout=JSON.parse(chkout);
+<script>
+    $(document).ready(function(){
+       var chkout=window.localStorage.getItem("checkoutInfo");
+       chkout=JSON.parse(chkout); 
+                   
+       $("#tax").val(chkout.tax.toFixed(2));
+       $("#mainDis").val(chkout.mainDiscount.toFixed(2));
+       $("#subTotal").val(chkout.subTotal.toFixed(2));
+       $("#grandTotal").val(chkout.grandTotal.toFixed(2));
+       $("#tipAmt").val(chkout.tipAmt);   
     
     if(window.localStorage.getItem("utils")){        
         var utilsData=JSON.parse(window.localStorage.getItem("utils"));
@@ -233,4 +240,5 @@ echo  "</pre>";*/
             //document.location.href="http://localhost/online_ordering/";
         }
 
+    });
 </script>
