@@ -1663,7 +1663,13 @@ addon+='<span><input type="checkbox" name="addOn" class="addOn" value="'+dt[i].a
 		calc+='</div>'; 	
 
                 //store checkout info
-                var chkout={"subTotal":subTotal};
+                var chkout={};
+                    chkout.subTotal=subTotal;
+                    chkout.grandTotal=grandTotal;
+                    chkout.couponApplied=appliedCoupon;
+                    chkout.tipAmt=Tip;
+                    chkout.tax=tax;
+                    chkout.mainDiscount=mainDiscount;
                     chkout=JSON.stringify(chkout);
                 window.localStorage.setItem("checkoutInfo",chkout);                
                 //end
