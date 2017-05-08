@@ -23,7 +23,7 @@ class connect
 
 		$this->username = 'root';
 
-		$this->password = '';
+		$this->password = '123456';
 
 		$this->database = 'online_order';
                 

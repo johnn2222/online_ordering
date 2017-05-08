@@ -219,7 +219,7 @@ if ($objConnect->checkConnection())
 
 	$utils = new utils();
 
-	$utils->insetOrder($_POST['info'],$_POST['nowltrSts']);        
+	$utils->insetOrder($_POST['info'],$_POST['nowltrSts'],$_POST['payMethod']);        
 	session_destroy();      
 	//header('location:'.WEBROOT);
 	break;	

@@ -642,7 +642,7 @@ class utils{
 
 	//end
 
-	public function insetOrder($data,$nowltrSts)
+	public function insetOrder($data,$nowltrSts,$payMethod=null)
 
 	{
 	$ord_no=rand(99999,10000);

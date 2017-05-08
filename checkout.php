@@ -145,32 +145,65 @@
                      </div>
     
                      </div>
+                      
+                      
+                       <div class="form-group">     
     
-                     
+                        <div class="row">
     
-                     
+                         <div class="col-lg-4">
     
-                     
+                         <label>Payment Method:</label>
     
-                     <div class="form-group">     
+                         </div>
     
-                            <div class="row">
+                         <div class="col-lg-4">    
+                             <input type="radio" checked="checked" value="cod" class="payMethod" name="payMethod"> COD    
+                         </div>                     
+                         <div class="col-lg-4">    
+                             <input type="radio" value="paypal" class="payMethod" name="payMethod"> PayPal    
+                         </div>
     
-                         <div class="col-lg-2">
+                     </div>
     
-                         &nbsp;
+                     </div>
+                    
     
-                            </div>
-    
-                           <div class="col-lg-10">
-    
-                           <input type="button" onclick="CheckoutNow();" class="btn btn-primary" name="submit" value="Order Now" />
-    
-                           </div> 
-    
-                        </div>
-    
+                     <div class="form-group" id="checkoutCod">
+                         <div class="row">    
+                         <div class="col-lg-2">    
+                         &nbsp;    
+                         </div>    
+                           <div class="col-lg-10">    
+                                <input type="button" onclick="CheckoutNow();" class="btn btn-primary" name="submit" value="Order Now" />    
+                           </div>     
+                        </div>    
                     </div>
+                      
+                      <div  id="checkoutPayPal" style="display: none;">
+                       <div class="form-group">
+                          <div class="row">    
+                         <div class="col-lg-2">    
+                             &nbsp;       
+                         </div>    
+                           <div class="col-lg-10">    
+                               <img src="images/paypal-logo.png">
+                           </div>     
+                            </div>    
+                        </div>
+                      
+                         <div class="form-group">
+                         <div class="row">    
+                         <div class="col-lg-2">    
+                             &nbsp;         
+                         </div>    
+                           <div class="col-lg-10">    
+                               <a href="javascript:;" onclick="payPaypal();" class="btn btn-primary">Pay Now</a> 
+                           </div>     
+                        </div>    
+                    </div>
+                  </div>
+                     
     
                      
     
@@ -221,7 +254,29 @@ echo  "</pre>";*/
 <?php include_once('includes/footer.php');?>
 
 <script>
-    $(document).ready(function(){
+     function payPaypal()
+	{   
+            var grandTotal=$("#grandTotal").val();
+            if(grandTotal!="" && grandTotal>0){
+              $("#amount").val(grandTotal);
+//              alert( $("#amount").val());
+             document.payPalForm.submit();
+            }
+		//var all_data=$("#CheckoutForm").serialize();
+                
+			
+	}
+    
+    $(document).ready(function(){        
+       
+        $(document).on("change","input[name='payMethod']",function(){
+           var payMethod=$(this).val();
+           if(payMethod=="paypal"){
+             $("#checkoutCod").hide(); 
+             $("#checkoutPayPal").show();
+           }
+        });
+        
        var chkout=window.localStorage.getItem("checkoutInfo");
        chkout=JSON.parse(chkout); 
                    
@@ -229,7 +284,7 @@ echo  "</pre>";*/
        $("#mainDis").val(chkout.mainDiscount.toFixed(2));
        $("#subTotal").val(chkout.subTotal.toFixed(2));
        $("#grandTotal").val(chkout.grandTotal.toFixed(2));
-       $("#tipAmt").val(chkout.tipAmt);   
+       $("#tipAmt").val(chkout.tipAmt);  
     
     if(window.localStorage.getItem("utils")){        
         var utilsData=JSON.parse(window.localStorage.getItem("utils"));
@@ -242,3 +297,29 @@ echo  "</pre>";*/
 
     });
 </script>
+<?php 
+$paypalURL = 'https://www.sandbox.paypal.com/cgi-bin/webscr';
+
+//PayPal Business Email
+$paypalID = 'cool@12345@gmail.com';
+?>
+
+        <form  action="<?php echo $paypalURL; ?>" name="payPalForm" id="payPalForm" method="post">
+            <!-- Identify your business so that you can collect the payments. -->
+            <input type="hidden" name="business" value="<?php echo $paypalID; ?>">
+            
+            <!-- Specify a PayPal Shopping Cart Add to Cart button. -->
+            <input type="hidden" name="cmd" value="_xclick">
+                     
+            <!-- Specify details about the item that buyers will purchase. -->
+ 
+            <input type="hidden" name="amount" id="amount">
+    
+            <input type="hidden" name="currency_code" value="USD">
+            
+            
+            <!-- Specify URLs -->
+            <input type='hidden' name='cancel_return' value='http://localhost/online_ordering/cancel.php'>
+            <input type='hidden' name='return' value='http://localhost/online_ordering/success.php'>            
+         
+        </form>

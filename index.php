@@ -1,7 +1,5 @@
 <?php include_once('includes/header.php');?>   
 
-
-
    <div class="content" id="Main-Cont">   
 
     	<div class="col-lg-12 col-sm-12">
