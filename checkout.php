@@ -301,25 +301,38 @@ echo  "</pre>";*/
 $paypalURL = 'https://www.sandbox.paypal.com/cgi-bin/webscr';
 
 //PayPal Business Email
-$paypalID = 'cool@12345@gmail.com';
+$paypalID = 'cooljohnn@rediffmail.com';
 ?>
 
-        <form  action="<?php echo $paypalURL; ?>" name="payPalForm" id="payPalForm" method="post">
-            <!-- Identify your business so that you can collect the payments. -->
+<!--        <form  action="<?php echo $paypalURL; ?>" name="payPalForm" id="payPalForm" method="post">
+             Identify your business so that you can collect the payments. 
             <input type="hidden" name="business" value="<?php echo $paypalID; ?>">
             
-            <!-- Specify a PayPal Shopping Cart Add to Cart button. -->
+             Specify a PayPal Shopping Cart Add to Cart button. 
             <input type="hidden" name="cmd" value="_xclick">
                      
-            <!-- Specify details about the item that buyers will purchase. -->
+             Specify details about the item that buyers will purchase. 
  
             <input type="hidden" name="amount" id="amount">
     
             <input type="hidden" name="currency_code" value="USD">
             
             
-            <!-- Specify URLs -->
+             Specify URLs 
+            <input type='hidden' name='return' value='http://localhost/online_ordering/success.php'>
             <input type='hidden' name='cancel_return' value='http://localhost/online_ordering/cancel.php'>
-            <input type='hidden' name='return' value='http://localhost/online_ordering/success.php'>            
+            
          
-        </form>
+        </form>-->
+
+<form class="paypal" action="payments.php" method="post" name="payPalForm" id="paypal_form" target="_blank">
+		<input type="hidden" name="cmd" value="_xclick" />
+		<input type="hidden" name="no_note" value="1" />		
+            <input type="hidden" name="currency_code" value="USD">
+		<input type="hidden" name="bn" value="PP-BuyNowBF:btn_buynow_LG.gif:NonHostedGuest" />
+		<input type="hidden" name="first_name" value="Customer's First Name"  />
+		<input type="hidden" name="last_name" value="Customer's Last Name"  />
+		<input type="hidden" name="payer_email" value="customer@example.com"  />
+		<input type="hidden" name="item_number" value="123456"/>
+                
+	</form>

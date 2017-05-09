@@ -1,7 +1,5 @@
 <?php
-
 class connect
-
 {
 
 	private $host;
